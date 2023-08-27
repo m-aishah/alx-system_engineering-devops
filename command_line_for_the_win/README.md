@@ -1,6 +1,6 @@
 # CMD Challenge - Command Line for the win!
 
-I completed the (CMD CHALLENGE)[https://cmdchallenge.com/] and uploaded screenshots (using SFTP) showing that I completed all the required levels.
+I completed the [CMD CHALLENGE](https://cmdchallenge.com/) and uploaded screenshots (using SFTP) showing that I completed all the required levels.
 
 ## Project Overview
 
