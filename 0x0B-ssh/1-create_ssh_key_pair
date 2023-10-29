@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Creates a new 4096 bytes RSA key pair (the private key is naed school).
+ssh-keygen -b 4096 -N betty -f school
