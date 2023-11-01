@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Install and configure Apache to serve "Hello Holberton" on the Docker container.
+
+# Update the package list and install Apache
+apt-get update
+apt-get install -y apache2
+
+# Create an HTML page with "Hello Holberton"
+echo "Hello Holberton" > /var/www/html/index.html
+
+# Start Apache
+service apache2 start
+
+# Keep the container running in the foreground to avoid exiting
+tail -f /dev/null
