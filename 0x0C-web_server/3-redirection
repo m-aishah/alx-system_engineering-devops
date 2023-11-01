@@ -4,10 +4,12 @@
 apt-get update
 apt-get install -y nginx
 
-mkdir /etc/nginx/html
-touch /etc/nginx/html/index.html
-echo "Hello World!" > /etc/nginx/html/index.html
-printf %s "server {
+# Remove the default configuration file
+rm -f /etc/nginx/sites-available/default
+
+# Create a new configuration file for Nginx
+cat > /etc/nginx/sites-available/default <<EOF
+server {
     listen 80;
     listen [::]:80 default_server;
     root   /etc/nginx/html;
@@ -16,6 +18,12 @@ printf %s "server {
     location /redirect_me {
         return 301 http://cuberule.com/;
     }
-}" > /etc/nginx/sites-available/default
+}
+EOF
 
+# Create the "Hello World" index.html as before
+mkdir /etc/nginx/html
+echo "Hello World!" > /etc/nginx/html/index.html
+
+# Restart Nginx using the service command
 service nginx restart

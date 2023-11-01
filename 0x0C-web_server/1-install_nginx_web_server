@@ -1,18 +1,21 @@
 #!/usr/bin/env bash
-# Installs Nginx with the following configurations:
+# Installs Nginx.
 
 apt-get update
 apt-get install -y nginx
 
 mkdir /etc/nginx/html
-touch /etc/nginx/html/index.html
 echo "Hello World!" > /etc/nginx/html/index.html
-printf %s "server {
-     listen      80 default_server;
-     listen      [::]:80 default_server;
-     root        /etc/nginx/html;
-     index       index.html index.htm;
-}
-" > /etc/nginx/sites-available/default
 
+# Create an Nginx server block
+cat > /etc/nginx/sites-available/default <<EOF
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    root /etc/nginx/html;
+    index index.html index.htm;
+}
+EOF
+
+# Restart Nginx using the service command
 service nginx restart
