@@ -8,33 +8,35 @@ class nginx {
     ensure  => file,
     content => "
 server {
-    listen 80 default_server;
+    listen 80;
     listen [::]:80 default_server;
-    root   /var/www/html;
+    root   /etc/nginx/html;
     index  index.html index.htm;
 
     location /redirect_me {
         return 301 http://cuberule.com/;
-    }
-
-    location / {
-        alias /var/www/html;
     }
 }
 ",
     require => Package['nginx'],
   }
 
-  file { '/var/www/html/index.html':
+file { '/etc/nginx/html':
+    ensure  => directory,
+    mode    => '0755',
+  }
+
+  file { '/etc/nginx/html/index.html':
     ensure  => file,
     content => "Hello World!\n",
     require => Package['nginx'],
+    mode => '0644'
   }
 
   service { 'nginx':
     ensure    => running,
     enable    => true,
-    subscribe => [File['/etc/nginx/sites-available/default'], File['/var/www/html/index.html']],
+    subscribe => [File['/etc/nginx/sites-available/default'], File['/etc/nginx/html/index.html']],
   }
 }
 
