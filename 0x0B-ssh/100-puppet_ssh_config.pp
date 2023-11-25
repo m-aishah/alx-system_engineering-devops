@@ -1,16 +1,16 @@
 # Ensure correct permissions on the SSH directory
 file { '/etc/ssh':
   ensure => 'directory',
-  owner  => 'ubuntu',
-  group  => 'ubuntu',
-  mode   => '0700',
+#  owner  => 'ubuntu',
+#  group  => 'ubuntu',
+#  mode   => '0700',
 }
 
 # Define SSH client configuration
 file { '/etc/ssh/ssh_config':
   ensure  => 'file',
-  owner   => 'ubuntu',
-  group   => 'ubuntu',
+#  owner   => 'ubuntu',
+#  group   => 'ubuntu',
 }
 
 # Include the stdlib module
