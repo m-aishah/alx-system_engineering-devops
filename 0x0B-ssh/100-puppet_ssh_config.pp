@@ -1,5 +1,5 @@
 # Define SSH client configuration
-file { '/etc/ssh/sshd_config':
+file { '/etc/ssh/ssh_config':
   ensure  => 'file',
   owner   => 'ubuntu',
   group   => 'ubuntu',
