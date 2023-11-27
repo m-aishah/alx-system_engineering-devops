@@ -1,12 +1,13 @@
 #!/usr/bin/python3
-"""Returns imformation about an employee's TODO lis progress."""
+'''Returns imformation about an employee's TODO list progress.'''
 import requests
 import sys
 
 if __name__ == "__main__":
     url = "https://jsonplaceholder.typicode.com/"
-    user = requests.get(url + "users/{}".format(sys.argv[1])).json()
-    todos = requests.get(url + "todos", params={"userId": sys.argv[1]}).json()
+    user_id = sys.argv[1]
+    user = requests.get(url + "users/{}".format(user_id)).json()
+    todos = requests.get(url + "todos", params={"userId": user_id}).json()
 
     completed = [t.get("title") for t in todos if t.get("completed") is True]
 
