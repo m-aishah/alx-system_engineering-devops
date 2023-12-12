@@ -20,3 +20,10 @@ This project is a programming assignment focused on utilizing Python for working
 - Description: Write a function that queries the Reddit API and prints the titles of the first 10 hot posts listed for a given subreddit.
 
 - File: [1-top_ten.py](./1-top_ten.py)
+
+
+<b>2. Recurse it!</b>
+
+- Description: Write a recursive function that queries the Reddit API and returns a list containing the titles of all hot articles for a given subreddit. If no results are found for the given subreddit, the function should return None.
+
+- File: [2-recurse.py](./2-recurse.py)
