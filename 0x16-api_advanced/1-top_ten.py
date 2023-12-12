@@ -14,7 +14,13 @@ def top_ten(subreddit):
 
     url = 'https://www.reddit.com/r/{}/hot.json'.format(subreddit)
     params = {'limit': 10}
-    response = requests.get(url, params=params, allow_redirects=False)
+    headers = {'User-Agent': 'MyRedditApp/1.0'}
+    response = requests.get(
+            url,
+            headers=headers,
+            params=params,
+            allow_redirects=False
+            )
 
     if response.status_code == 404:
         print(None)
