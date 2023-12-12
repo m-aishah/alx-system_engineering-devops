@@ -9,7 +9,11 @@ import requests
 def recurse(subreddit, hot_list=[], count=0, after=''):
     '''Returns a list of titles of all hot post on a given subreddit.
 
-    subreddit (str): The subreddit in question.
+    Args:
+        subreddit (str): The subreddit in question.
+        hot_list (list): The list of titles of hot post gotten thus far.
+        count (int): The parameter of results matched thus far.
+        after (str): Th eparame
 
     Returns: A list of all hot posts.
     '''

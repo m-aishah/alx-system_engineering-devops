@@ -7,7 +7,8 @@ import requests
 def number_of_subscribers(subreddit):
     '''Returns the total number of subscribers for a given subreddit.
 
-    subreddit (str): The given subreddit.
+    Args:
+        subreddit (str): The given subreddit.
 
     Returns: The total number of subscribers.
     '''

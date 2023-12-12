@@ -9,7 +9,8 @@ import requests
 def top_ten(subreddit):
     ''' Prints the title of the top 10 hot posts for a given subreddit.
 
-    subreddit (str): The name of the subreddit in question.
+    Args:
+        subreddit (str): The name of the subreddit in question.
     '''
 
     url = 'https://www.reddit.com/r/{}/hot.json'.format(subreddit)
