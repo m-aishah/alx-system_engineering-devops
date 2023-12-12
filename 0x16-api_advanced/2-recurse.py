@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-'''Queries the Reddit API and returns a list of all hot articles for a given subreddit.'''
+'''
+Queries the Reddit API and returns a list of all hot post on a given subreddit.
+'''
 
 import requests
 
@@ -19,9 +21,9 @@ def recurse(subreddit, hot_list=[], count=0, after=''):
             'limit': 100
         }
     response = requests.get(
-            url, 
-            headers=headers, 
-            params=params, 
+            url,
+            headers=headers,
+            params=params,
             allow_redirects=False
             )
     if response.status_code == 404:
