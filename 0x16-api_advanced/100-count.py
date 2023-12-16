@@ -6,6 +6,7 @@ and outputs a sorted count of specified keywords.
 '''
 
 import requests
+import time
 
 
 def count_words(subreddit, word_list, w_count={}, count=0, after=''):
@@ -25,7 +26,7 @@ def count_words(subreddit, word_list, w_count={}, count=0, after=''):
             'count': count,
             'limit': 100
         }
-    
+
     response = requests.get(
             url,
             headers=headers,
@@ -33,18 +34,19 @@ def count_words(subreddit, word_list, w_count={}, count=0, after=''):
             allow_redirects=False
             )
     while response.status_code == 403:
+        time.sleep(5)
         response = requests.get(
-            url,
-            headers=headers,
-            params=params,
-            allow_redirects=False
-            )
+                url,
+                headers=headers,
+                params=params,
+                allow_redirects=False
+           )
     try:
         data = response.json()
         if response.status_code == 404:
             raise Exception
     except Exception:
-        print("")
+        # print("")
         return
 
     data = response.json()
