@@ -25,13 +25,20 @@ def count_words(subreddit, word_list, w_count={}, count=0, after=''):
             'count': count,
             'limit': 100
         }
+    
     response = requests.get(
             url,
             headers=headers,
             params=params,
             allow_redirects=False
             )
-
+    while response.status_code == 403:
+        response = requests.get(
+            url,
+            headers=headers,
+            params=params,
+            allow_redirects=False
+            )
     try:
         data = response.json()
         if response.status_code == 404:
@@ -49,7 +56,7 @@ def count_words(subreddit, word_list, w_count={}, count=0, after=''):
         for word in word_list:
             if word.lower() in title:
                 times = len([t for t in title if t == word.lower() or
-                    t == word])
+                             t == word])
                 word_lower = word.lower()
                 if w_count.get(word_lower) is None:
                     w_count[word_lower] = times
