@@ -48,8 +48,8 @@ def count_words(subreddit, word_list, w_count={}, count=0, after=''):
         title = c.get("data").get("title").lower().split()
         for word in word_list:
             if word.lower() in title:
-                times = len([t for t in title if t == word.lower()
-                             or t == word])
+                times = len([t for t in title if t == word.lower() or
+                    t == word])
                 word_lower = word.lower()
                 if w_count.get(word_lower) is None:
                     w_count[word_lower] = times
