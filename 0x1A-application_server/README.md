@@ -95,6 +95,7 @@ Hello HBNB!ubuntu@229-web-01:~$
 
 - Example:
 <i>On my server</i>
+
 Window 1:
 ```bash
 
@@ -134,3 +135,74 @@ Hello HBNB!vagrant@ubuntu-xenial:~$
 
 
 - File: [2-app_server-nginx_config](./2-app_server-nginx_config)
+
+
+<b>3. Add a route with query parameters</b>
+
+- Description: Building on what you did in the previous tasks, let’s expand our web application by adding another service for Gunicorn to handle. In AirBnB_clone_v2/web_flask/6-number_odd_or_even, the route /number_odd_or_even/<int:n> should already be defined to render a page telling you whether an integer is odd or even. You’ll need to configure Nginx to proxy HTTP requests to the route /airbnb-dynamic/number_odd_or_even/(any integer) to a Gunicorn instance listening on port 5001. The key to this exercise is getting Nginx configured to proxy requests to processes listening on two different ports. You are not expected to keep your application server processes running. If you want to know how to run multiple instances of Gunicorn without having multiple terminals open, see tips below.
+
+
+- Requirements:
+
+	- Nginx must serve this page both locally and on its public IP on port 80.
+
+	- Nginx should proxy requests to the route /airbnb-dynamic/number_odd_or_even/(any integer) the process listening on port 5001.
+
+	- Include your Nginx config file as 3-app_server-nginx_config.
+
+- Example:
+
+<i>Terminal 1</i>
+
+```bash
+
+ubuntu@229-web-01:~/AirBnB_clone_v2$ tmux new-session -d 'gunicorn --bind 0.0.0.0:5000 web_flask.0-hello_route:app'
+ubuntu@229-web-01:~/AirBnB_clone_v2$ pgrep gunicorn
+1661
+1665
+ubuntu@229-web-01:~/AirBnB_clone_v2$ tmux new-session -d 'gunicorn --bind 0.0.0.0:5001 web_flask.6-number_odd_or_even:app'
+ubuntu@229-web-01:~/AirBnB_clone_v2$ pgrep gunicorn
+1661
+1665
+1684
+1688
+
+ubuntu@229-web-01:~/AirBnB_clone_v2$ curl 127.0.0.1:5000/airbnb-onepage/
+Hello HBNB!ubuntu@229-web-01:~/AirBnB_clone_v2$
+
+ubuntu@229-web-01:~/AirBnB_clone_v2$ curl 127.0.0.1:5001/number_odd_or_even/6
+<!DOCTYPE html>
+<HTML lang="en">
+  <HEAD>
+    <TITLE>HBNB</TITLE>
+  </HEAD>
+  <BODY><H1>Number: 6 is even</H1></BODY>
+</HTML>ubuntu@229-web-01:~/AirBnB_clone_v2
+ubuntu@229-web-01:~$ 
+ubuntu@229-web-01:~/AirBnB_clone_v2$ curl 127.0.0.1/airbnb-dynamic/number_odd_or_even/5
+<!DOCTYPE html>
+<HTML lang="en">
+  <HEAD>
+    <TITLE>HBNB</TITLE>
+  </HEAD>
+  <BODY><H1>Number: 5 is odd</H1></BODY>
+</HTML>ubuntu@229-web-01:~/AirBnB_clone_v2$
+
+```
+
+<i>Local Machine</i>
+
+```bash
+
+vagrant@ubuntu-xenial:~$ curl 35.231.193.217/airbnb-dynamic/number_odd_or_even/6<!DOCTYPE html>
+<HTML lang="en">
+  <HEAD>
+    <TITLE>HBNB</TITLE>
+  </HEAD>
+  <BODY><H1>Number: 6 is even</H1></BODY>
+</HTML>vagrant@ubuntu-xenial:~$
+
+```
+
+
+- File: [3-app_server-nginx_config](./3-app_server-nginx_config)
