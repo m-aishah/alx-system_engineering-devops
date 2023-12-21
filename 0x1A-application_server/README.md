@@ -10,4 +10,127 @@ For tis project focuses on enhancing your web infrastructure by incorporating an
 
 - Description: Let’s serve what you built for AirBnB clone v2 - Web framework on web-01. This task is an exercise in setting up your development environment, which is used for testing and debugging your code before deploying it to production.
 
+- Example:
+
+<i> Window 1:</i>
+
+```bash
+
+ubuntu@229-web-01:~/AirBnB_clone_v2$ python3 -m web_flask.0-hello_route
+ * Serving Flask app "0-hello_route" (lazy loading)
+ * Environment: production
+   WARNING: Do not use the development server in a production environment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+35.231.193.217 - - [02/May/2019 22:19:42] "GET /airbnb-onepage/ HTTP/1.1" 200 -
+
+```
+
+<i>Window 2:</i>
+
+```bash
+
+ubuntu@229-web-01:~/AirBnB_clone_v2$ curl 127.0.0.1:5000/airbnb-onepage/
+Hello HBNB!ubuntu@229-web-01:~/AirBnB_clone_v2$
+
+```
+
+
+- File: N/A (I did it on my web-01 server).
+
+
+<b>1. Set up production with Gunicorn</b>
+
+- Description: Now that you have your development environment set up, let’s get your production application server set up with Gunicorn on web-01, port 5000. You’ll need to install Gunicorn and any libraries required by your application. Your Flask application object will serve as a WSGI entry point into your application. This will be your production environment. As you can see we want the production and development of your application to use the same port, so the conditions for serving your dynamic content are the same in both environments.
+
+- Requirements:
+
+	- Install Gunicorn and any other libraries required by your application.
+
+	- The Flask application object should be called app. (This will allow us to run and check your code)
+
+	- You will serve the same content from the same route as in the previous task. You can verify that it’s working by binding a Gunicorn instance to localhost listening on port 5000 with your application object as the entry point.
+
+	- In order to check your code, the checker will bind a Gunicorn instance to port 6000, so make sure nothing is listening on that port.
+
+- Example:
+
+<i>Terminal 1:</i>
+```bash
+
+ubuntu@229-web-01:~/AirBnB_clone_v2$ gunicorn --bind 0.0.0.0:5000 web_flask.0-hello_route:app
+[2019-05-03 20:47:20 +0000] [3595] [INFO] Starting gunicorn 19.9.0
+[2019-05-03 20:47:20 +0000] [3595] [INFO] Listening at: http://0.0.0.0:5000 (3595)
+[2019-05-03 20:47:20 +0000] [3595] [INFO] Using worker: sync
+[2019-05-03 20:47:20 +0000] [3598] [INFO] Booting worker with pid: 3598
+
+```
+
+<i>Terminal 2:</i>
+
+```bash
+
+ubuntu@229-web-01:~$ curl 127.0.0.1:5000/airbnb-onepage/
+Hello HBNB!ubuntu@229-web-01:~$
+
+```
+
+
 - File: N/A
+
+
+<b>2. Serve a page with Nginx</b>
+
+- Description: Building on your work in the previous tasks, configure Nginx to serve your page from the route /airbnb-onepage/
+
+- Requirements:
+
+	- Nginx must serve this page both locally and on its public IP on port 80.
+
+	- Nginx should proxy requests to the process listening on port 5000.
+
+	- Include your Nginx config file as 2-app_server-nginx_config.
+
+
+- Example:
+<i>On my server</i>
+Window 1:
+```bash
+
+ubuntu@229-web-01:~/AirBnB_clone_v2$ gunicorn --bind 0.0.0.0:5000 web_flask.0-hello_route:app
+[2019-05-06 20:43:57 +0000] [14026] [INFO] Starting gunicorn 19.9.0
+[2019-05-06 20:43:57 +0000] [14026] [INFO] Listening at: http://0.0.0.0:5000 (14026)
+[2019-05-06 20:43:57 +0000] [14026] [INFO] Using worker: sync
+[2019-05-06 20:43:57 +0000] [14029] [INFO] Booting worker with pid: 14029
+
+```
+Window 2:
+
+```bash
+
+ubuntu@229-web-01:~/AirBnB_clone_v2$ curl 127.0.0.1/airbnb-onepage/
+Hello HBNB!ubuntu@229-web-01:~/AirBnB_clone_v2$
+
+```
+
+<i>On my local terminal:</i>
+
+```bash
+
+vagrant@ubuntu-xenial:~$ curl -sI 35.231.193.217/airbnb-onepage/
+HTTP/1.1 200 OK
+Server: nginx/1.10.3 (Ubuntu)
+Date: Mon, 06 May 2019 20:44:55 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 11
+Connection: keep-alive
+X-Served-By: 229-web-01
+
+vagrant@ubuntu-xenial:~$ curl 35.231.193.217/airbnb-onepage/
+Hello HBNB!vagrant@ubuntu-xenial:~$
+
+```
+
+
+- File: [2-app_server-nginx_config](./2-app_server-nginx_config)
